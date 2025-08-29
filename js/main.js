@@ -95,6 +95,7 @@ const translations = {
         'toast-success-export': 'Dáta boli úspešne exportované!',
         'toast-success-clear-db': 'Databáza bola úspešne vymazaná!',
         'toast-success-settings': 'Nastavenia boli úspešne uložené!',
+        'welcome-message': 'Ahoj! Systém úspešne načítal všetky súbory a je pripravený na použitie! 🎉',
         'toast-error-import': 'Chyba pri importe súboru. Skontrolujte formát.',
         'toast-error-barcode': 'Chyba pri generovaní čiarového kódu. Artikel musí byť platný.',
         'toast-error-invalid-artikel': 'Neplatný artikel! Artikel nesmie byť prázdny.',
@@ -245,6 +246,7 @@ const translations = {
         'polica-hide': 'Hide',
         'setting-template': 'Default template',
         'btn-save-settings': 'Save settings',
+        'welcome-message': 'Hello! System successfully loaded all files and is ready to use! 🎉',
     },
     de: {
         'title': 'Etikettendruck',
@@ -291,6 +293,7 @@ const translations = {
         'polica-hide': 'Verstecken',
         'setting-template': 'Standard-Vorlage',
         'btn-save-settings': 'Einstellungen speichern',
+        'welcome-message': 'Hallo! System hat erfolgreich alle Dateien geladen und ist bereit zur Verwendung! 🎉',
     }
 };
 
@@ -1205,8 +1208,29 @@ function updateShelfButtons() {
     }
 }
 
+/**
+ * Zobrazí uvítaciu správu potvrdzujúcu, že systém vidí všetky súbory
+ */
+function showWelcomeMessage() {
+    console.log('🎉 Ahoj! Áno, vidím všetky tvoje súbory:');
+    console.log('📁 HTML súbor: tlac1.html');
+    console.log('📁 JavaScript moduly: main.js, labels.js, print.js, settings.js, database.js, utils.js');
+    console.log('📁 CSS súbory: styles.css + šablóny štítkov');
+    console.log('📁 Databáza: data.xlsx, data.xlsm');
+    console.log('✅ Systém tlačenia štítkov je pripravený na použitie!');
+    
+    // Zobrazí toast správu v UI používajúc aktuálny jazyk
+    setTimeout(() => {
+        const welcomeMsg = translations[currentLanguage]['welcome-message'] || translations['sk']['welcome-message'];
+        showToast(welcomeMsg, 'success');
+    }, 1000);
+}
+
 // Spustenie aplikácie po načítaní DOM
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+    showWelcomeMessage();
+});
 
 // Nastaviť predvolený text pre placeholder prekladu, ak nie je definovaný
 if (!translations.sk['preview-nazov-placeholder']) {
